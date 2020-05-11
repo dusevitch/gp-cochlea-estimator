@@ -9,8 +9,8 @@ FOLDER STRUCTURE:
 	The folder structure should contain the following in addition to this Readme.txt file:
 
 
-	- JRMPC
-		- All code from the JRMPC library folder contents availble at [https://team.inria.fr/perception/research/jrmpc/] should be placed here
+	- JRMPC (add code here)
+		- All code from the JRMPC library folder contents available at [https://team.inria.fr/perception/research/jrmpc/] should be placed here
 		(ex.)
 		- jrmpc.m
 		- utils
@@ -57,4 +57,4 @@ SAMPLE GP FILE:
 	2.5429	    1.9787	    0.3105
 	1.2282	    2.1177	    0.4490
 	1.4695	    2.6039	    0.9428
-	13.897	    9.6757      8.6077
+	13.897	    9.6757          8.6077
