@@ -1,60 +1,29 @@
-README.txt
 
 This Readme file was created for a basic overview of how to use the gp_cochlea_estimate.m file to estimate the pose of a
 guinea pig cochlea.  It outlines the folder structure and files necessary to run the code as well as a snippet of example
 code to test the program.
 
+This code is based off of a paper to be published in Otology and Neurogology.  Link will be provided soon.
 
-FOLDER STRUCTURE:
-	The folder structure should contain the following in addition to this Readme.txt file:
+This method is based off of the JRMPC algorithm and paper found [here].(https://team.inria.fr/perception/research/jrmpc/)
 
-
-	- JRMPC (add code here)
-		- All code from the JRMPC library folder contents available at [https://team.inria.fr/perception/research/jrmpc/] should be placed here
-		(ex.)
-		- jrmpc.m
-		- utils
-			- mat2off.m
-			- orient_normals.m
-			- read_motion_fn.m
-			- scan_to_matrix.m
-			- setsandparameters.mat
-	- gp_cochlea_estimate.m
-	- sample_run.m
-	- DATA
-		- input_data_set.dat ( 10x3 array of values in order in .dat format, see below for example )
-		- combined_coords_L_CO.mat
-		- combined_coords_R_CO.mat
-	- FUNCTIONS
-		- convertCoord.m
+You can also check out a basic Qt gui created that can be used to record point touching and will output the required file in another repo I made [here](https://github.com/dusevitch/GP_Feature_Selector_GUI). More details are included specifying how/where to select points. NOTE: It uses an NDI Polaris motion tracking device. You'll need to include whichever motion tracking device you're using. 
 		
 
 TO RUN:
-To run the code, copy the 10x3 array of feature points you will use into input_data_set.dat or create a new .dat file (and change the input file name in sample_run.m) with a 10x3 array of the input GP points in the following order (See example below):
+To run the code, load the the 6x3 array of feature points file you will use (see sample_data_file.dat) into the gp_cochlea_estimate.  The 6 features needed to be touched and recorded by a motion tracking system are (please see the attached paper for reference):
 
-FPI
-FPS
-LSC
-MA
-OI
-OS
-RWFF
-RWCF
-ST
-ZA
+CL, MN, OS, RWA, RWP, and LLI
 
-Then run the code in Matlab seen below in sample_run.m.
+Then run code as seen in sample_run.m.
 
 
-SAMPLE GP FILE:
+SAMPLE_DATA_FILE.DAT:
 
-	0.6768	    1.9356	    0.8123
-	0.5107	    2.6278	    0.8198
-	1.0900	    4.5171	    0.5487
-	6.8294	    7.0181	    4.1665
-	6.4841	    4.5931	   -0.2007
-	3.3553	    6.8527	    0.6895
-	2.5429	    1.9787	    0.3105
-	1.2282	    2.1177	    0.4490
-	1.4695	    2.6039	    0.9428
-	13.897	    9.6757          8.6077
+	-151.719	62.664	-89.2556
+	-159.526	66.6298	-86.6652
+	-155.467	68.299	-85.1436
+	-153.705	65.6777	-86.3773
+	-152.624	65.4604	-85.9927
+	-153.585	66.0412	-86.3372
+
