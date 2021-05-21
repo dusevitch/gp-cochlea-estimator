@@ -146,4 +146,5 @@ function [co_pos_vec, ma_orient_vec] = gp_cochlea_estimate(TOUCH_DATA_FILE, head
     co_pos_vec = CO_pos;
     ma_orient_vec = (TC_pos - CB_pos)/norm(TC_pos - CB_pos); % Normalize the vector output
 
+    
 end

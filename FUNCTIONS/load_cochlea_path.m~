@@ -1,0 +1,110 @@
+% Getting a 
+function [R_cochlea, point_pos, point_field] = load_cochlea_path(head_side);
+
+%%%%%%%%%%%%%% Computing Algorithm for determining Normalized Mag b field %%%%%%%%%%%%%%
+% This code creates a path for up to 6.25 mm into the Guinea pig
+% cochlea.
+
+    %% Load Data
+    curve_data = importdata('Curve_points.csv');
+    data_mm = curve_data.data*1000;
+
+    curve = data_mm([1:end-3],:);
+    center = data_mm(end-2,:);
+    axis = data_mm([end-1 end],:);
+
+    %% Generate curve from points selected
+    CS  = cscvn(curve');
+
+    %% Separate curve into equal distances (0.25 for your purposes)
+
+    % Get list of lengths every int (interval) mm for tot (Total) mm
+    int = 0.05;  % length of insertion
+    tot = 6.25; % length of insertion
+    point_positions = 0:int:tot; % length of insertion every quarter mm
+
+    curve_cmpt_points = fnval(CS, point_positions)';
+
+    %% Get Perpendicular B Vectors
+
+    % Generate normal vectors
+    curve_pts = curve_cmpt_points;
+    point_array = zeros([length(curve_pts)-1 3]);
+    vec_array = zeros([length(curve_pts)-1 3]);
+
+    for i = 1:length(curve_pts)-1
+        tan_vec = [curve_pts(i+1,1)-curve_pts(i,1) curve_pts(i+1,2)-curve_pts(i,2)];
+
+        % Check quadrant:
+        %2nd
+
+        break_number = 30;
+        if i<=break_number
+            vec_vals = [ -tan_vec(2), tan_vec(1)]; % opposite B field for concavity starting into the cochleostomy
+        else
+            vec_vals = [ tan_vec(2), -tan_vec(1)];
+        end
+        vec = vec_vals/norm(vec_vals);
+
+        point_array(i,:) = curve_pts(i,:);
+        vec_array(i,:) = [vec 0];
+
+        disp(dot(tan_vec,vec));   
+    end
+
+    %% Get final small set of points and array every 0.25 mm
+    interval = 1:5:length(point_array);
+
+    final_points = point_array(interval,:);
+    b_vectors = vec_array(interval,:);
+    
+   
+    %% Build the transformation coordinate frame of the path
+
+    % ----- Left Side ------
+    % CO point
+    d = center';
+    x = axis(1,:);
+    y = [curve(1,1) curve(1,2) 0];
+    z = cross(x,y);
+    R = [x' y' z'];
+    % transformation matrix to define the coordinate frame of the path
+    left_path_transf_matrix = [R d;0 0 0 1];
+
+    % ----- Right Side ------
+    % CO point
+    d = center';
+    x = axis(1,:);
+    y = [-curve(1,1) curve(1,2) 0];
+    z = cross(x,y);
+    R = [x' y' z'];
+    % transformation matrix to define the coordinate frame of the path
+    right_path_transf_matrix = [R d;0 0 0 1];
+
+
+%     %% PLOTTING
+%     % Plot Left Path and arrows (blue and red)
+%     plot3(final_points(:,1),final_points(:,2),final_points(:,3),'bo');
+%     xlim([-2.5 2.5]);
+%     ylim([-2.5 2.5]);
+%     zlim([-2.5 2.5]);
+%     hold on;
+%     quiver3(final_points(:,1),final_points(:,2),final_points(:,3),b_vectors(:,1),b_vectors(:,2),b_vectors(:,3),'r');
+%     hold on;
+% 
+%     % Plot the Right side points and arrows(green and black)
+%     final_points_R = [-final_points(:,1), final_points(:,2), final_points(:,3)];
+%     b_vectors_R = [-b_vectors(:,1), b_vectors(:,2), b_vectors(:,3)];
+%     plot3(final_points_R(:,1),final_points_R(:,2),final_points_R(:,3),'go');
+%     hold on;
+%     quiver3(final_points_R(:,1),final_points_R(:,2),final_points_R(:,3),b_vectors_R(:,1),b_vectors_R(:,2),b_vectors_R(:,3),'k');
+
+    if head_side==0
+        R_cochlea = left_path_transf_matrix;
+        point_pos = 
+        point_field = 
+    else
+        R_cochlea = right_path_transf_matrix;
+        point_pos = 
+    end
+end
