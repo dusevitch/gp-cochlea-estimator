@@ -56,10 +56,11 @@ function [co_T, point_pos, point_field] = load_cochlea_path(head_side);
     interval = 1:5:length(point_array);
 
     final_points = point_array(interval,:);
+    b_vectors = vec_array(interval,:);
     
-    mag_scale_vals = [25 25 25 25 25 25 25 25 25 25 25 25 25 35 45 45 0 0 0 0 0 0 0 0 0]'; % This is the vector of scaled magnitudes based on magnetic insertion tests at each point
-    b_vectors = mag_scale_vals.*vec_array(interval,:);
-    
+   %TODO(multiply b_vectors by magnetic magnitudes found) 
+   mag_scale_vals = [10 10 10 10 20 20 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+   test_b_vectors = mag_scale_vals.*b_vectors;
    
     %% Build the transformation coordinate frame of the path
 
